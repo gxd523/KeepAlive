@@ -37,6 +37,15 @@ public class RemoteService extends Service {
         Notification notification = NotificationUtil.createNotification(RemoteService.this, "Remote");
         startForeground(1111, notification);
 
+        showDialog();
+
+//        Intent intent1 = new Intent(RemoteService.this, OnePixelActivity.class);
+//        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent1);
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void showDialog() {
         if (PermissionUtil.checkFloatPermission(RemoteService.this)) {
             AlertDialog alertDialog = new AlertDialog.Builder(RemoteService.this)
                     .setTitle(String.format("%s成功复活!",RemoteService.class.getSimpleName()))
@@ -52,11 +61,6 @@ public class RemoteService extends Service {
 
             alertDialog.show();
         }
-
-//        Intent intent1 = new Intent(RemoteService.this, OnePixelActivity.class);
-//        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(intent1);
-        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override

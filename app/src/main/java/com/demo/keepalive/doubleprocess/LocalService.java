@@ -37,11 +37,22 @@ public class LocalService extends Service {
         Notification notification = NotificationUtil.createNotification(LocalService.this, "Local");
         startForeground(1111, notification);
 
+        showDialog();
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return new ProcessConnect.Stub() {
+        };
+    }
+
+    private void showDialog() {
         if (PermissionUtil.checkFloatPermission(LocalService.this)) {
             AlertDialog alertDialog = new AlertDialog.Builder(LocalService.this)
                     .setTitle(String.format("%s成功复活!", LocalService.class.getSimpleName()))
                     .create();
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 alertDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
             } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
@@ -52,14 +63,6 @@ public class LocalService extends Service {
 
             alertDialog.show();
         }
-
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return new ProcessConnect.Stub() {
-        };
     }
 
     @Override
