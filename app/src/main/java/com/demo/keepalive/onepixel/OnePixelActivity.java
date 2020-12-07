@@ -1,4 +1,4 @@
-package com.demo.keepalive;
+package com.demo.keepalive.onepixel;
 
 import android.app.Activity;
 import android.content.Context;

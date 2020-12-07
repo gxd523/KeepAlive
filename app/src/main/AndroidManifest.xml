@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.demo.keepalive">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <application
         android:icon="@android:mipmap/sym_def_app_icon"
         android:label="保活"
@@ -14,7 +15,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OnePixelActivity"
+            android:name=".onepixel.OnePixelActivity"
             android:launchMode="singleInstance" />
+
+        <service android:name=".doubleprocess.LocalService" />
+        <service
+            android:name=".doubleprocess.RemoteService"
+            android:process=":remote" />
     </application>
 </manifest>
