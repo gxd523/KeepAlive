@@ -1,14 +1,18 @@
 package com.demo.keepalive.doubleprocess;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.demo.keepalive.NotificationUtil;
+import com.demo.keepalive.PermissionUtil;
 import com.demo.keepalive.ProcessConnect;
 
 public class LocalService extends Service {
@@ -32,6 +36,23 @@ public class LocalService extends Service {
 
         Notification notification = NotificationUtil.createNotification(LocalService.this, "Local");
         startForeground(1111, notification);
+
+        if (PermissionUtil.checkFloatPermission(LocalService.this)) {
+            AlertDialog alertDialog = new AlertDialog.Builder(LocalService.this)
+                    .setTitle(String.format("%s成功复活!", LocalService.class.getSimpleName()))
+                    .create();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                alertDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+            } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                alertDialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+            } else {
+                alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+            }
+
+            alertDialog.show();
+        }
+
         return super.onStartCommand(intent, flags, startId);
     }
 
